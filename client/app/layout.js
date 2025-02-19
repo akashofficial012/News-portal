@@ -21,12 +21,11 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-         <StorePovider>
-         <Toaster
-  position="top-center"
-  reverseOrder={false}
-/>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      >
+        <StorePovider>
+          <Toaster position="top-center" reverseOrder={false} />
           {children}
         </StorePovider>
       </body>

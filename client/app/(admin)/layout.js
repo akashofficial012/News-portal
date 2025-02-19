@@ -1,7 +1,7 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "../globals.css";
 import LeftSidebar from "@/components/shared/LeftSidebar";
-import StorePovider from "@/context/StorePovider";
+import Header from "@/components/ui/Header";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -16,11 +16,11 @@ const geistMono = Geist_Mono({
 export default function AdminLayout({ children }) {
   return (
     <div
-      className={`${geistSans.variable} ${geistMono.variable} antialiased flex`}
-    >
+      className={`${geistSans.variable} ${geistMono.variable} antialiased flex`}>
       <LeftSidebar />
       <main className="flex-1">
-        <StorePovider>{children}</StorePovider>
+          <Header />
+          {children}
       </main>
     </div>
   );
