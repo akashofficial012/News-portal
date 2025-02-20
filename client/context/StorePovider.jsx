@@ -9,7 +9,7 @@ const StorePovider = ({ children }) => {
     const [store, dispatch] = useReducer(storeReducer, {
         userInfo: decode_token(localStorage.getItem('newsToken')),
         
-        // token: localStorage.getItem('newsToken') || ""
+        token: localStorage.getItem('newsToken') || ""
     })
 
     return <storeContext.Provider value={{ store, dispatch }}>

@@ -34,6 +34,12 @@ class AuthController {
       return res.json({ message: "Internal Server Error" });
     }
   };
+
+  add_writer = async (req, res) => {
+    const { name, email, password, category } = req.body;
+  }
 }
+
+ 
 
 module.exports = new AuthController();

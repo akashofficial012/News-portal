@@ -1,54 +1,95 @@
 "use client"
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
+import toast from 'react-hot-toast'
+import axios from 'axios'
+import storeContext from '@/context/storeContext'
+import { base_url } from '@/config/config'
+import Link from 'next/link'
 
-export default function page() {
-    const [country, setCountry] = useState("");
+
+const AddWriter = () => {
+
+  const { store } = useContext(storeContext)
+
+  const [state, setState] = useState({
+    name: "",
+    email: "",
+    password: "",
+    category: ""
+  })
+  const inputHandler = (e) => {
+    setState({
+      ...state,
+      [e.target.name]: e.target.value
+    })
+  }
+  const [loader, setLoader] = useState(false)
+
+  const submit = async (e) => {
+    e.preventDefault()
+    console.log(state);
+    
+    console.log(store.token);
+    try {
+      setLoader(true)
+      const { data } = await axios.post(`${base_url}/api/news/writers`, state, {
+        headers: {
+          'Authorization': `${store.token}`
+        }
+      })
+      setLoader(false)
+      toast.success(data.message)
+    } catch (error) {
+      setLoader(false)
+      toast.error(error.response.data.message)
+    }
+  }
+
   return (
-   <section className="max-w-4xl p-6 mx-auto mt-10 bg-white rounded-md shadow-md ">
-  <h2 className="text-lg font-semibold text-gray-700 capitalize">Account settings</h2>
-  <form>
-    <div className="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
-      <div>
-        <label className="text-gray-700 " >Name</label>
-        <input  type="text" className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40  focus:outline-none focus:ring" />
+    <div className='bg-white rounded-md'>
+      <div className='flex justify-between p-4'>
+        <h2 className='text-xl font-medium'>Add writers</h2>
+        <Link className='px-3 py-[6px] bg-purple-500 rounded-sm text-white hover:bg-purple-600' href='/dashboard/writers'>Writers</Link>
       </div>
-      <div>
-
-    <div className="block w-full">
-      <label htmlFor="countries" className="block mb-2 text-sm font-medium text-gray-600 w-full">
-        Country
-      </label>
-      <select
-        id="countries"
-        value={country}
-        onChange={(e) => setCountry(e.target.value)}
-        className="h-12 border border-gray-300 text-gray-600 text-base rounded-lg block w-full py-2.5 px-4 focus:outline-none"
-      >
-        <option value="" disabled>
-          Choose a country
-        </option>
-        <option value="US">United States</option>
-        <option value="CA">Canada</option>
-        <option value="FR">France</option>
-        <option value="DE">Germany</option>
-      </select>
+      <div className='p-4'>
+        <form onSubmit={submit}>
+          <div className='grid grid-cols-2 gap-x-8 mb-3'>
+            <div className='flex flex-col gap-y-2'>
+              <label className='text-md font-medium text-gray-600' htmlFor="name">Name</label>
+              <input onChange={inputHandler} value={state.name} required type="text" placeholder='name' name='name' className='px-3 py-2 rounded-md outline-0 border border-gray-300 focus:border-green-500 h-10' id='name' />
+            </div>
+            <div className='flex flex-col gap-y-2'>
+              <label className='text-md font-medium text-gray-600' htmlFor="category">Category</label>
+              <select onChange={inputHandler} value={state.category} required name='category' id='category' className='px-3 py-2 rounded-md outline-0 border border-gray-300 focus:border-green-500 h-10' >
+                <option value="">---select category---</option>
+                <option value="Education">Education</option>
+                <option value="Travel">Travel</option>
+                <option value="Health">Health</option>
+                <option value="International">International</option>
+                <option value="Sports">Sports</option>
+                <option value="Technology">Technology</option>
+              </select>
+            </div>
+          </div>
+          <div className='grid grid-cols-2 gap-x-8 mb-3'>
+            <div className='flex flex-col gap-y-2'>
+              <label className='text-md font-medium text-gray-600' htmlFor="email">Email</label>
+              <input onChange={inputHandler} value={state.email} required type="email" placeholder='email' name='email' className='px-3 py-2 rounded-md outline-0 border border-gray-300 focus:border-green-500 h-10' id='email' />
+            </div>
+            <div className='flex flex-col gap-y-2'>
+              <div className='flex flex-col gap-y-2'>
+                <label className='text-md font-medium text-gray-600' htmlFor="password">Password</label>
+                <input onChange={inputHandler} value={state.password} required type="password" placeholder='password' name='password' className='px-3 py-2 rounded-md outline-0 border border-gray-300 focus:border-green-500 h-10' id='password' />
+              </div>
+            </div>
+          </div>
+          <div className='mt-4'>
+            <button disabled={loader} className='px-3 py-[6px] bg-purple-500 rounded-sm text-white hover:bg-purple-600' >{loader ? 'Loading...' : 'Add Writer'}</button>
+          </div>
+        </form>
+      </div>
     </div>
-
-      </div>
-      <div>
-        <label className="text-gray-700 " htmlFor="password">Email</label>
-        <input id="password" type="password" className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40  focus:outline-none focus:ring" />
-      </div>
-      <div>
-        <label className="text-gray-700 " htmlFor="passwordConfirmation">Password </label>
-        <input id="passwordConfirmation" type="password" className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md    focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40  focus:outline-none focus:ring" />
-      </div>
-    </div>
-    <div className="flex justify-end mt-6">
-      <button className="px-8 py-2.5 leading-5 text-white transition-colors duration-300 transform bg-gray-700 rounded-md hover:bg-gray-600 focus:outline-none focus:bg-gray-600">Save</button>
-    </div>
-  </form>
-</section>
-
   )
 }
+
+export default AddWriter
