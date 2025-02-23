@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-   "server": "nodemon index.js",               
-    "client": "npm run dev --prefix client",  
-    "start": "node index.js",             
+    "server": "nodemon index.js",
+    "client": "npm run dev --prefix client",
+    "start": "node index.js",
     "build": "npm run build --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "lint": "next lint"
@@ -21,6 +21,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
+    "formidable": "^3.5.2",
     "jsonwebtoken": "^9.0.2",
     "moment": "^2.30.1",
     "mongoose": "^8.10.1"
