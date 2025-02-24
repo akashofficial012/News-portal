@@ -1,6 +1,8 @@
 const moment = require('moment')
 const newsModel = require('../model/newsModel')
 const { formidable } = require('formidable')
+const { mongo: { ObjectId } } = require('mongoose')
+const galleryModel = require('../model/galleryModel')
 const cloudinary = require('cloudinary').v2
 class newsController {
 
@@ -36,6 +38,47 @@ class newsController {
             return res.status(500).json({ message: 'Internal server error' })
         }
     }
+    get_images = async (req, res) => {
+        const { id } = req.userInfo
+
+        try {
+            const images = await galleryModel.find({ writerId: new ObjectId(id) }).sort({ createdAt: -1 })
+            return res.status(201).json({ images })
+        } catch (error) {
+            return res.status(500).json({ message: 'Internal server error' })
+        }
+    }
+    add_images = async (req, res) => {
+
+        const form = formidable({})
+        const { id } = req.userInfo
+
+        cloudinary.config({
+            cloud_name: process.env.cloud_name,
+            api_key: process.env.api_key,
+            api_secret: process.env.api_secret,
+            secure: true
+        })
+
+        try {
+            const [_, files] = await form.parse(req)
+            let allImages = []
+            const { images } = files
+
+            for (let i = 0; i < images.length; i++) {
+                const { url } = await cloudinary.uploader.upload(images[i].filepath, { folder: 'news_images' })
+                allImages.push({ writerId: id, url })
+            }
+
+            const image = await galleryModel.insertMany(allImages)
+            return res.status(201).json({ images: image, message: "images uplaod success" })
+
+        } catch (error) {
+            console.log(error.message)
+            return res.status(500).json({ message: 'Internal server error' })
+        }
+    }
+        
 
 }
 

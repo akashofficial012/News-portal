@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "axios": "^1.7.9",
+    "copy-text-to-clipboard": "^3.2.0",
     "jodit-react": "^5.2.14",
     "jwt-decode": "^4.0.0",
     "lucide-react": "^0.475.0",

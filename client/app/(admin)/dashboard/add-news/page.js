@@ -7,6 +7,7 @@ import toast from 'react-hot-toast'
 import storeContext from '@/context/storeContext';
 import Link from 'next/link';
 import { base_url } from '@/config/config';
+import Galler from '@/components/ui/Galler';
 
 const CreateNews = () => {
 
@@ -58,9 +59,9 @@ const CreateNews = () => {
 
     const get_images = async () => {
         try {
-            const { data } = await axios.get(`${base_url}/api/images`, {
+            const { data } = await axios.get(`${base_url}/api/news/get-images`, {
                 headers: {
-                    "Authorization": `Bearer ${store.token}`
+                    "Authorization": `${store.token}`
                 }
             })
             console.log(data.images)
@@ -87,9 +88,9 @@ const CreateNews = () => {
 
             setImagesLoader(true)
 
-            const { data } = await axios.post(`${base_url}/api/images/add`, formData, {
+            const { data } = await axios.post(`${base_url}/api/news/images/add`, formData, {
                 headers: {
-                    "Authorization": `Bearer ${store.token}`
+                    "Authorization": `${store.token}`
                 }
             })
             setImagesLoader(false)
