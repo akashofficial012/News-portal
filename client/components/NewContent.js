@@ -83,7 +83,7 @@ const NewContent = () => {
             )
             const { data } = await axios.put(`${base_url}/api/news/status-update/${news_id}`, { status }, {
                 headers: {
-                    'Authorization': `Bearer ${store.token}`
+                    'Authorization': `${store.token}`
                 }
             })
             set_res({
