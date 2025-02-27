@@ -7,25 +7,22 @@ class middleware {
         const { authorization } = req.headers
 
         if (authorization) {
-
             const token = authorization
-
             if (token) {
-
                 try {
                     const userInfo = await jwt.verify(token, process.env.JWT_SECRET)
                     req.userInfo = userInfo
                     next()
 
                 } catch (error) {
-                    return res.status(401).json({ message: "Unauthorized" })
+                    return res.status(401).json({ message: "Unauthorized " })
                 }
 
             } else {
-                return res.status(401).json({ message: "Unauthorized" })
+                return res.status(401).json({ message: "Unauthorized " })
             }
         } else {
-            return res.status(401).json({ message: "Unauthorized" })
+            return res.json({ message: "Unauthorized ewt" })
         }
     }
 
