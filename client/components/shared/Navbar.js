@@ -1,11 +1,16 @@
+"use client"
 import React from 'react'
 import moment from 'moment'
 import { FaFacebookF } from 'react-icons/fa'
 import { AiFillYoutube, AiOutlineTwitter } from 'react-icons/ai'
 import Image from 'next/image'
+import { usePathname } from "next/navigation";
 
 const Navbar = () => {
+    const pathname = usePathname();
 
+    // Hide Navbar on Login and Dashboard pages
+    if (pathname === "/login" || pathname.startsWith("/dashboard")) return null;
     return (
         <div>
             <div className='px-5 lg:px-8 flex justify-between items-center bg-[#333333] text-[#cccccc]'>
