@@ -182,31 +182,20 @@ class newsController {
                         }
                     }
                 },
-                {
-                    $project: {
-                        _id: 0,
-                        category: '$_id',
-                        news: {
-                            $slice: ['$news', 5]
-                        }
-                    }
-                }
+                
             ])
 
             const news = {}
             for (let i = 0; i < category_news.length; i++) {
                 news[category_news[i].category] = category_news[i].news
             }
-            console.log(news);
-            return res.json({ category_news })
-            
+            return res.status(200).json({ news : category_news })
         } catch (error) {
             console.log(error.message)
             return res.status(500).json({ message: 'Internal server error' })
         }
     }
-
-    }
+}
 
 
 
