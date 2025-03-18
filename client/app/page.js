@@ -12,7 +12,7 @@ export default async function  Home() {
     },
   });
   const newsArray = (await news_data?.json())?.news || [];
-  console.log(newsArray44, 'newsArray');
+  // console.log(newsArray, 'newsArray');
   
   
   return (

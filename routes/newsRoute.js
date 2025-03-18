@@ -6,6 +6,8 @@ const newsController = require("../controller/newsController");
 
 
 router.get('/news/get-all-news', newsController.get_all_news)
+router.get('/news/get-recent-news', newsController.get_recent_news)
+
 router.post("/news/add-news", middleware.auth, newsController.add_news);
 router.post("/news/images/add", middleware.auth, newsController.add_images);
 router.put('/news/update/:news_id', middleware.auth, newsController.update_news)
